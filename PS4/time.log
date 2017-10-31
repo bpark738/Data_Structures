@@ -1,0 +1,58 @@
+ESTIMATE of time to complete assignment: 25 hours
+
+            Time                Time
+     Date  Started  Spent Work completed
+     ----  -------  ----  --------------
+    10/13   8:00pm  2:00  Read assignment and relevant material in Aspnes's notes. Looked at stach.h and started
+                          stack.c
+    10/14   9:00pm  1:30  Continued to work on stack.c. Haivng some problems with pushing and popping tokens
+    10/15	  4:30pm  0:40  Finished basic functionality of stack.c and tested the functions. May need to adjust
+    					            what to do when stack is full for push and empty for pop. Will ask TA later for that.
+    10/16   5:00pm  1:00  Started working on Calc.c. Learned about strtok function. Need to figure out how to
+                          compare tokens with other strings to check if its an operator or parentheses.
+    10/17   9:00pm  1:00  Fixed stack.c using stacktest.c from lecture.
+    10/17  10:00pm  2:00  Worked to implement shunting yard algorithm to convert to post-fix.
+    10/18   8:00pm  0:30  Fixed stack.c using valgrind on the zoo. Had some memory leaks. Seems 
+                          to work fine with numbers using stacktest.c
+    10/18   8:30pm  0:50  Worked on the shunting yard algorithm. Coded algorithm for the numbers
+                          and operators. Still need to work to get the method to deal with 
+                          parenthesis right.
+    10/19   1:00pm  0:50  Edited my program to handle right parentheses in the shunting yard algorithm.
+                          Program seems to work in converting pre-fix to post-fix. Fixed memory leaks as well
+                          for parentheses.
+    10/20  12:00pm  0:15  Implemented algorithm to evaluate post fix notation. Still need to work on the debug 
+                          flag and check for bad inputs.
+    10/21   3:00pm  1:15  Modified algorithm to handle the debug option of the problem. Had to rearrange code
+                          to make this work. Still need to use strtod and print the stack debug message.
+    10/21   4:15pm  0:30  Found no use for strtod. Got debug to work for the input half. Still need to 
+                          print debug messages for the output.
+    10/22   1:50pm  0:25  Got debug messages for the output to work. Still need to check for error in inputs.
+    10/22   1:15pm  0:30  Added in defensive code for bad input like mismatched parentheses and two operators in
+                          a row.
+    10/22   2:15pm  1:15  Edited code to fix memory leak and checked for corner cases. program now passes all 
+                          public tests but the last one.
+    10/23   5:00pm  1:30  Edited code to print input in the right way. Test passes all public tests. Checked for
+                          edge cases. Checked edge cases of too few operands and empty input. Will do more.
+    10/26   7:00pm  1:30  Checked for edge cases. Fixed cases where multiple periods are used. Not fail
+                          on input like 000 or 0.00. Had to change is_numeric() function. 
+    10/27   7:00pm  1:00  Edited program for style.
+
+
+                    ----
+
+
+                    My major difficulties in this homework was the debug flag which is not being tested and the 
+                    different versions of Calcx that kept coming out. But for the actual programming of the
+                    assignment, freeing memory was definitey a challenge. Especially since it is confusing
+                    whether we have to free before exit(0) or not. Valgrind never gave any errors
+                    when I didn't before. Also seg faulting continues to be a problem when I first
+                    start the assignment. It is definitely something I need to keep conscious of. I thought 
+                    knowing when to use pointers was hard for me in the beginning. I realized I didn't need
+                    to use a pointer for the stack and could just use the object data type and its address for
+                    use in functions.
+
+
+
+
+                    18:20 TOTAL time spent
+    

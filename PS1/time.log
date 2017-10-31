@@ -1,0 +1,56 @@
+ESTIMATE of time to complete assignment: 15 hours
+
+            Time                Time
+     Date  Started  Spent Work completed
+     ----  -------  ----  --------------
+     8/31   9:00pm  1:30  Read assignment and chapter 1 in K&R
+     9/1    4:00pm  0:35  Sketched solution and wrote down ideas
+     9/1    7:00pm  0:50  Started writing program, wrote initial while loop, made functions
+                          to check if digit, if zero, if octal, if hexadecimal
+     9/1    7:05pm  1:05  Wrote code to increment digits by 1 and check cases where
+                          numbers were not base 10. Checked simple digit cases.
+     9/1    8:30pm  1:10  Wrote function to check for line splices and attempted to implement
+                          it into the while loop and checked cases of line splices and fixed errors in spacing and deleting characters.
+     9/1    10:00pm 0:56  Worked more to check cases for comments delimited by double quotes  
+                          and to deal with negative numbers. Also added the base parameter to
+                          the incremental function. Checked negative number cases and fixed errors.
+     9/1    12:00am 1:00  Created separate function to output digits of the resulting 
+                          number and broke down the process from one function.
+     9/2    10:30am 1:10  Added function to change number to a number in a different base
+                          and started function to change a number from base 10.  Checked if these pieces of code worked.  
+     9/2    11:30am 1:50  Wrote code to enable program to correctly handle hexadecimal digits 
+                          like A, B,.., to F and checked different inputs to test the code.
+     9/2    2:00pm  0:35  Tested program on some corner cases and wrote
+                          down failed cases for future work. Checked what the staff solution program does to some inputs I thought of.
+     9/2    7:00pm  0:30  Tested more staff solutions to check what their program does to 
+                          inputs.
+     9/3    11:00am 1:50  Edited program to check cases where there is no digit after 
+                          the binary symbol or hexadecimal symbol. I also handled if the input is negative 1. Or if there is a negative symbol before a zero or if there is a minus symbol all alone. I also changed the number from int to float to handle bigger numbers.    
+     9/3    6:00pm  0:30  Checked public tests. Fails last one. Edited program to 
+                          handle the "\"23" case (escaping the double quotes)
+     9/4     9:00pm 1:59  Checked new specs like valid inputs after binary, octal or 
+                          hexadecimal symbols and edited program.  Tested program after edits.
+                          Made new function isOctal and worked to find out why the function was not returning true for digits 0 to 8. Found out that I forgot to use the character minus '0' to get the integer values. Now passes all public tests.  Made program shorter by removing redudancy.
+     9/7    7:00pm  0:25  Edited program so the minus sign is preserved.
+     9/8    4:30pm  0:30  Fixed program so that \ backslash cases worked after finding errors.
+     9/8    8:00pm  0:50  Checked program for different test cases. Fixed the cases where the 
+                          input is -1 in different bases.
+     9/8    9:00pm  1:27  Edited program for style. Added and removed comments.
+                    ----
+
+
+                    18:42  TOTAL time spent
+
+
+
+My major difficulties with this assignment was thinking about the corner cases
+could be tested on the private scripts. Sometimes when I find that my program
+failed on a corner case and I edit the program to compensate, I found that
+the behavior changed for a different case. So I had to keep track of what
+could happen when I changed, added, or deleted a piece of code. I had to continually
+test the program to make sure there weren't any unintended consequences.
+
+Sometimes it was hard finding out why my program wasn't behaving as I intended it too.
+For example, I couldn't find out why a function was returning false for digits 0 to 8 for
+some time. Then I realized that I had to convert from character to integer by subtracting off
+the character 0.

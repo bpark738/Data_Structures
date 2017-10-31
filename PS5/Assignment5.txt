@@ -1,0 +1,319 @@
+                P R E L I M I N A R Y    S P E C I F I C A T I O N
+
+
+
+CS-223   Homework #5    Cloud - word cloud generator
+
+REMINDER: Do not under any circumstances copy another student's code
+or give a copy of your code to another student.  After discussing the
+assignment with another student, you may not take any written or
+electronic record away.  Moreover, you must engage in a full hour of
+mind-numbing activity before you work on it again.  Such discussions
+must be noted in your log file.
+
+A word cloud (or tag cloud) is a display of text in which the font
+size of a word is proportional to the frequency that the word occurs
+in a document.
+
+See https://en.wikipedia.org/wiki/Tag_cloud
+
+For examples, Google "word cloud" and click images.
+
+For this assignment, you will create a program:
+
+  Cloud [-debug | -threshold value | -preorder | -inorder | -postorder | -html]
+
+that reads standard input and writes to standard output.  It tabulates
+the frequency that words occur in the input, and prints a list of those
+words that occur more than some threshold value.  
+
+Here are examples using piped input from echo:
+
+% echo 'one two one two three four' | ./Cloud 
+No words seen 5 times.
+% echo 'one two one two three four' | ./Cloud -threshold 2
+The Word Cloud:
+[0] two [2]
+[1] one [2]
+% echo 'One 1 Two One. one two three four' | ./Cloud -threshold 2
+The Word Cloud:
+[0] two [2]
+[1] one [2]
+
+Note that the default value of threshold is 5.  You can reset it with
+the -threshold command line argument.  Also, Cloud converts uppercase
+letters to lowercase and ignores tokens that contain non-alpha
+characters, like "1" and "One."
+
+% echo 'One 1 Two One. one two three four' | ./Cloud -inorder
+INORDER
+**root** [1 / 3] four [1 / 0] one [2 / 2] three [1 / 0] two [2 / 1] 
+No words seen 5 times.
+% echo 'One 1 Two One. one two three four' | ./Cloud -preorder
+PREORDER
+**root** [1 / 3] one [2 / 2] four [1 / 0] two [2 / 1] three [1 / 0] 
+No words seen 5 times.
+% echo 'One 1 Two One. one two three four' | ./Cloud -postorder
+POSTORDER
+four [1 / 0] three [1 / 0] two [2 / 1] one [2 / 2] **root** [1 / 3] 
+No words seen 5 times.
+
+Cloud stores the input words in a binary search tree, whose root node
+has the key value "**root**".  Cloud will print out the values of the
+tree (including the frequency / height in square brackets) using
+preorder, inorder, or postorder traversal, depending on the respective
+command line arguments.  Note that the inorder traversal is
+alphabetical order.  Thus, the insert process should compare keys
+using alphabetical order with lowercase tokens.
+
+If a command argument occurs multiple times, there is no change in
+behavior, except that only the final threshold value is honored.  If
+multiple traversal order arguments are present, the actual order will
+be preorder, inorder, and postorder.
+
+As Cloud inserts elements in the binary search tree in the order in
+which they occur in the input, it checks to see if the word frequency
+has reached the threshold value.  If so, it sticks the word node on
+the front of a linked list: cloud.
+
+Here is an example using redirected input from a file:
+
+% cat test2
+I think that I shall never see a data structure as lovely as a tree
+% ./Cloud -threshold 2 < test2
+The Word Cloud:
+[0] a [2]
+[1] as [2]
+[2] i [2]
+
+Here is an example using the debug option:
+
+% ./Cloud -threshold 2 -debug < test2
+Input: I think that I shall never see a data structure as lovely as a tree
+Tree height: 6
+Tree size: 13
+The Word Cloud:
+[0] a [2]
+[1] as [2]
+[2] i [2]
+
+If you give the -html argument, Cloud generates html code:
+
+% cat test1
+now is the time for all good men to come to the aid of their country
+now is the time for all good men to come to the aid of their country
+now is the time for all good men to come to the aid of their country
+NOW is THE time For all good men to come to the aid of their country
+NOW1 is, THE. time* For (all) 123  good men to come to the aid of their country
+./Cloud -html < test1
+<div style="font-size: 5px"> country </div>
+<div style="font-size: 5px"> their </div>
+<div style="font-size: 5px"> of </div>
+<div style="font-size: 5px"> aid </div>
+<div style="font-size: 5px"> come </div>
+<div style="font-size: 5px"> men </div>
+<div style="font-size: 5px"> good </div>
+<div style="font-size: 5px"> for </div>
+<div style="font-size: 10px"> to </div>
+<div style="font-size: 9px"> the </div>
+
+
+Note that all words are separated by spaces.  That allows you to use
+the C library function strtok().  You ignore tokens containing
+punctuation or digits.
+
+Also, all threshold values are integers.  That allows you to use the C
+library function atoi().
+
+Also, there will be no line splices in the input.  That allows you to
+remain sane.  Lines of input will not exceed 1024 characters.
+
+All error output (usage and "Fatal Error" messages below) should be
+printed to standard error. For example,
+
+   fprintf(stderr, "usage ...");
+   
+Note that not all errors are fatal.  All other output should be
+printed to standard output.  (Use normal printf.)
+
+You may use global variables for threshold, debugflag, and cloud.
+Note that these are NOT defined in btree.h.
+
+
+Cloud should:
+
+* Implement a binary search tree.  This is where you will store the
+  words from the text.  The header file btree.h is provided in
+  /c/cs223/hw5.  Implement btree.c.  Do not modify btree.h Your code
+  should refer to the btree.h in the hw5 directory:
+
+  #include "/c/cs223/hw5/btree.h"
+
+* Have no memory leaks.  You will need to use dynamic memory
+  allocation, e.g., malloc().  You want to make sure that you free up
+  memory before termination.  Use valgrind to detect any memory
+  problems.  It will also detect other kinds of memory lapses, such as
+  reading or writing to unauthorized parts of memory.
+
+* Fail "gracefully" (i.e., neither go into an infinite loop nor cause a memory
+  dump) if any of the assumptions above is violated.
+
+Reading: You should review the relevant Aspnes sections on binary
+search trees, and the Van Wyk chapter on searching.
+
+Use the submit command (see below) to turn in the source file(s) for
+Cloud, btree.c, Makefile, and your log file (see below).
+
+YOU MUST SUBMIT YOUR FILES (INCLUDING THE LOG FILE) AT THE END OF ANY SESSION
+WHERE YOU SPEND AT LEAST ONE-HALF HOUR WRITING OR DEBUGGING CODE, AND AT LEAST
+ONCE EVERY HOUR DURING LONGER SESSIONS.  (All submissions are retained.)
+
+Notes
+=====
+1. When available, the public grading script will be /c/cs223/hw5/Tests/test.Cloud
+   (and my solution will be /c/cs223/hw5/Cloudx).  To run it, type
+
+     % /c/cs223/hw5/Tests/test.Cloud
+
+   (here % is the shell prompt).  The script uses make to create Cloud.  To
+   run each test it redirects the test file (e.g., /c/cs223/hw5/Tests/t01.c
+   for Test #01) to the standard input of Cloud and redirects the standard
+   output to a temporary file.  Then it compares this file with the expected
+   output for that input (e.g., /c/cs223/hw5/Tests/t01.cs for Test #01).
+   Your program passes the test only if the two files are identical.
+
+   To run your program on the file for Test #01, type
+
+     % /c/cs223/hw5/Tests/t01
+
+   To compare the output from your program with the expected output, type
+
+     % /c/cs223/hw5/Tests/t01 | cmp - /c/cs223/hw5/Tests/t01.p
+
+   (cmp outputs the first character where the files differ) or
+
+     % /c/cs223/hw5/Tests/t01 | diff - /c/cs223/hw5/Tests/t01.p
+
+   (diff outputs the lines where they differ but uses a looser definition for
+   "identical") or
+
+     %  /c/cs223/hw5/Tests/test.Cloud 01
+
+   (you may specify more than one test here).
+
+   If your output looks the same as what is expected, but your program still
+   fails the test, there are probably some invisible characters in your output.
+   To make all characters visible (except blanks), type
+
+     % /c/cs223/hw5/Tests/t01 | cat -vet
+
+   or
+
+     % /c/cs223/hw5/Tests/t01 | od -bc
+
+2. Keep track of how you spend your time in completing this assignment.  Your
+   log file should be of the general form (that below is fictitious):
+
+     ESTIMATE of time to complete assignment: 10 hours
+
+           Time     Time
+     Date  Started  Spent Work completed
+     ----  -------  ----  --------------
+     1/13  10:15pm  0:45  Read assignment and relevant material in K&R
+     1/16   4:45pm  1:15  Sketched solution using a finite-state machine with
+                            one-character look-ahead
+     1/19   9:00am  2:20  Wrote the program and eliminated compile-time errors;
+                            code passes eight tests
+     1/20   7:05pm  2:00  Discovered and corrected two logical errors; code now
+                            passes eleven tests
+     1/23  11:00am  1:35  Finished debugging; program passes all public tests
+                    ----
+                    7:55  TOTAL time spent
+
+     I discussed my solution with: Peter Salovey, Ben Polak, Tamar Gendler,
+     and Jonathan Holloway (and watched four episodes of The Simpsons).
+
+     <A brief discussion of the major difficulties encountered>
+
+   but MUST contain
+
+   * your estimate of the time required (made prior to writing any code),
+
+   * the total time you actually spent on the assignment,
+
+   * the names of all others (but not members of the teaching staff) with whom
+     you discussed the assignment for more than 10 minutes, and
+
+   * a brief discussion (100 words MINIMUM) of the major conceptual and coding
+     difficulties that you encountered in developing and debugging the program
+     (and there will always be some).
+
+   This log will generally be worth 5-10% of the total grade.
+
+   N.B.  To facilitate analysis, the log file MUST be the only file submitted
+   whose name contains the string "log" and the estimate / total MUST be on the
+   only line in that file that contains the string "ESTIMATE" / "TOTAL".
+
+3. The submit program can be invoked in eight different ways:
+
+     % /c/cs223/bin/submit 5  Makefile Cloud.c btree.c time.log
+
+   submits the named source files as your solution to Homework #5;
+   Note that even though you will NOT submit btree.h.  You should
+   assume that your btree table implementation may be tested
+   independently of Cloud.
+
+     % /c/cs223/bin/check  5
+
+   lists the files that you submitted for Homework #5;
+
+     % /c/cs223/bin/unsubmit  5  error.submit bogus.solution
+
+   deletes the named files that you submitted previously for Homework
+   #5 (which is useful if you rename a file or accidentally submit the
+   wrong one);
+
+     % /c/cs223/bin/makeit  5  Cloud
+
+   runs "make" on the files that you submitted previously for Homework #5;
+
+     % /c/cs223/bin/testit  5  Cloud  [THIS DOES NOT WORK.  SEE ABOVE.]
+
+   runs the public test script for Cloud using the files that you submitted
+   previously for Homework #5;
+
+     % /c/cs223/bin/protect  6  Cloud.c time.log
+
+   protects the named files that you submitted previously for Homework #6 (so
+   they cannot be deleted accidentally);
+
+     % /c/cs223/bin/unprotect  7  util.c time.log
+
+   unprotects the named files that you submitted previously for Homework #7 (so
+   they can be deleted); and
+
+     % /c/cs223/bin/retrieve  8  common.c time.log
+
+   and
+
+     % /c/cs223/bin/retrieve  8  -d"2016/01/21 20:00" btree.c
+
+   retrieve copies of the named files that you submitted previously for
+   Homework #8 (in case you accidentally delete your own copies).  The day
+   and hour are optional and request the latest submission prior to that time
+   (see the -d flag under "man co" for how to specify times).
+
+4. When assignments are style graded, EVERY source file found in the
+   submit directory will be reviewed.  Thus prudence suggests using
+   unsubmit to remove a file from the directory when you change its
+   name or it ceases to be part of your solution.  See
+   http://zoo.cs.yale.edu/classes/cs223/doc/Style
+
+   In your spare time, you might think about how to automate the tests
+   in the online style sheet.  That would be a pretty good homework
+   assignment.
+
+5. Prudence (and a 5-point penalty for code that does not make)
+   suggests that you run makeit ("makeit 5 Cloud") after you have
+   submitted the final version of your source files.  
+

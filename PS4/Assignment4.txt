@@ -1,0 +1,324 @@
+                P R E L I M I N A R Y    S P E C I F I C A T I O N
+
+
+
+CS-223   Homework #4    Calc - very simple interactive calculator
+
+REMINDER: Do not under any circumstances copy another student's code
+or give a copy of your code to another student.  After discussing the
+assignment with another student, you may not take any written or
+electronic record away.  Moreover, you must engage in a full hour of
+mind-numbing activity before you work on it again.  Such discussions
+must be noted in your log file.
+
+Most telephones come with calculator apps.  You don't even need to
+type in the problem - you can just ask Siri.  (Try asking Siri "what
+is 0 / 0?")
+
+Also, Linux has a built-in calculator as well: /usr/bin/calc
+
+(40 points) Write a program "Calc" that reads each line of input as an
+arithmetic expression in (normal) infix notation, converts it to
+postfix notation, aka, Reverse Polish Notation or RPN, and evaluates
+the expression.
+
+See https://en.wikipedia.org/wiki/Reverse_Polish_notation
+
+The above article explains how to evaluate the expression once it is
+in RPN.  The trick is getting there.  The recommended way of converting
+infix notation to postfix notation is Dijkstra's shunting yard algorithm.
+
+See https://en.wikipedia.org/wiki/Shunting-yard_algorithm
+
+Write a program
+
+  Calc [-debug]?
+
+that reads standard input and writes to standard output.  Here are
+some sample lines of input using standard input from the terminal:
+
+% ./Calcx
+1 + 2
+Input: 1 + 2
+Result: 3.00
+3 * ( 9 * 9 )
+Input: 3 * ( 9 * 9 )
+Result: 243.00
+-bash-4.3$ ./Calcx 
+1 + 2 + 3
+Input: 1 + 2 + 3
+Result: 6.00
+1.5 * 3.5 - ( 7 * 8 )
+Input: 1.5 * 3.5 - ( 7 * 8 )
+Result: -50.75
+( ( 3 * 4 ) + ( 4 * 5 ) ) - 8
+Input: ( ( 3 * 4 ) + ( 4 * 5 ) ) - 8
+Result: 24.00
+
+Here is are examples using piped input from echo:
+
+% echo '123 + 456' | ./Calcx
+Input: 123 + 456
+Result: 579.00
+
+% echo '123 + (456 - 3 )' | ./Calc
+Input: 123 + (456 - 3 )
+Fatal Error. Bad token: (456
+
+
+Here is an example using redirected input from a file:
+
+% cat test
+123 + 456
+% ./Calcx < test
+Input: 123 + 456
+Result: 579.00
+
+Here is an example using the debug option:
+
+% echo '123 + 456' | ./Calcx -debug
+Input: 123 + 456
+Stack: size: 0 :
+Token:123: type: 0 value: 123.00
+Stack: size: 0 :
+Token:+: type: 1 value: 0.00
+Stack: size: 1 :[1 + 0.0] 
+Token:456: type: 0 value: 456.00
+Stack: size: 1 :[1 + 0.0] 
+OUTPUT:
+Stack: size: 0 :
+Token:123: type: 0 value: 123.00
+Stack: size: 1 :[0 123 123.0] 
+Token:456: type: 0 value: 456.00
+Stack: size: 2 :[0 456 456.0] [0 123 123.0] 
+Token:+: type: 1 value: 0.00
+Result: 579.00
+% echo '1 + 2 * 3' | ./Calcx -debug
+Input: 1 + 2 * 3
+Stack: size: 0 :
+Token:1: type: 0 value: 1.00
+Stack: size: 0 :
+Token:+: type: 1 value: 0.00
+Stack: size: 1 :[1 + 0.0] 
+Token:2: type: 0 value: 2.00
+Stack: size: 1 :[1 + 0.0] 
+Token:*: type: 2 value: 0.00
+Stack: size: 2 :[2 * 0.0] [1 + 0.0] 
+Token:3: type: 0 value: 3.00
+Stack: size: 2 :[2 * 0.0] [1 + 0.0] 
+OUTPUT:
+Stack: size: 0 :
+Token:1: type: 0 value: 1.00
+Stack: size: 1 :[0 1 1.0] 
+Token:2: type: 0 value: 2.00
+Stack: size: 2 :[0 2 2.0] [0 1 1.0] 
+Token:3: type: 0 value: 3.00
+Stack: size: 3 :[0 3 3.0] [0 2 2.0] [0 1 1.0] 
+Token:*: type: 2 value: 0.00
+Stack: size: 2 :[0 3 6.0] [0 1 1.0] 
+Token:+: type: 1 value: 0.00
+
+
+The StackPrint function (declared in stack.h) prints out the number of
+elements in the stack and the contents as a tuple [type string value]
+
+The type is an enumerated type defined in stack.h.  For operators, the
+string is the operator and the value is 0.  For numbers, the string is
+blank and the value is the value of the number.
+
+Note that all tokens are separated by spaces.  That allows you to use
+the C library function strtok().
+
+Also, all numbers are decimal - both integers and floating point.
+That allows you to use the C library function strtod().
+
+Also, there will be no line splices in the input.  That allows you to
+remain sane.  Lines of input will not exceed 1024 characters.
+
+
+All error output (usage and "Fatal Error" messages below) should be
+printed to standard error. For example,
+
+   fprintf(stderr, "usage ...");
+   
+All other output should be printed to standard output.  (Use normal
+printf.)
+
+
+Calc should:
+
+* Implement a stack.  You will need a stack for the infix to postfix
+  process as well as for evaluating the RPN.  The header file stack.h
+  is provided in /c/cs223/hw4.  Implement stack.c.  Do not modify
+  stack.h
+
+* Have no memory leaks.  You will need to use dynamic memory
+  allocation, e.g., malloc().  You want to make sure that you free up
+  memory before termination.  Use valgrind to detect any memory
+  problems.  It will also detect other kinds of memory lapses, such as
+  reading or writing to unauthorized parts of memory.
+
+* Fail "gracefully" (i.e., neither go into an infinite loop nor cause a memory
+  dump) if any of the assumptions above is violated.
+
+Reading: You should review the relevant Aspnes sections on stacks and
+queues.
+
+Use the submit command (see below) to turn in the source file(s) for Calc, a
+Makefile, and your log file (see below).
+
+YOU MUST SUBMIT YOUR FILES (INCLUDING THE LOG FILE) AT THE END OF ANY SESSION
+WHERE YOU SPEND AT LEAST ONE-HALF HOUR WRITING OR DEBUGGING CODE, AND AT LEAST
+ONCE EVERY HOUR DURING LONGER SESSIONS.  (All submissions are retained.)
+
+Notes
+=====
+1. When available, the public grading script will be /c/cs223/hw4/Tests/test.Calc
+   (and my solution will be /c/cs223/hw4/Calcx).  To run it, type
+
+     % /c/cs223/hw4/Tests/test.Calc
+
+   (here % is the shell prompt).  The script uses make to create Calc.  To
+   run each test it redirects the test file (e.g., /c/cs223/hw4/Tests/t01.c
+   for Test #01) to the standard input of Calc and redirects the standard
+   output to a temporary file.  Then it compares this file with the expected
+   output for that input (e.g., /c/cs223/hw4/Tests/t01.cs for Test #01).
+   Your program passes the test only if the two files are identical.
+
+   To run your program on the file for Test #01, type
+
+     % /c/cs223/hw4/Tests/t01
+
+   To compare the output from your program with the expected output, type
+
+     % /c/cs223/hw4/Tests/t01.c | cmp - /c/cs223/hw4/Tests/t01.p
+
+   (cmp outputs the first character where the files differ) or
+
+     % /c/cs223/hw4/Tests/t01.c | diff - /c/cs223/hw4/Tests/t01.p
+
+   (diff outputs the lines where they differ but uses a looser definition for
+   "identical") or
+
+     %  /c/cs223/hw4/Tests/test.Calc 01
+
+   (you may specify more than one test here).
+
+   If your output looks the same as what is expected, but your program still
+   fails the test, there are probably some invisible characters in your output.
+   To make all characters visible (except blanks), type
+
+     % /c/cs223/hw4/Tests/t01.c | cat -vet
+
+   or
+
+     % /c/cs223/hw4/Tests/t01.c | od -bc
+
+2. Keep track of how you spend your time in completing this assignment.  Your
+   log file should be of the general form (that below is fictitious):
+
+     ESTIMATE of time to complete assignment: 10 hours
+
+           Time     Time
+     Date  Started  Spent Work completed
+     ----  -------  ----  --------------
+     1/13  10:15pm  0:45  Read assignment and relevant material in K&R
+     1/16   4:45pm  1:15  Sketched solution using a finite-state machine with
+                            one-character look-ahead
+     1/19   9:00am  2:20  Wrote the program and eliminated compile-time errors;
+                            code passes eight tests
+     1/20   7:05pm  2:00  Discovered and corrected two logical errors; code now
+                            passes eleven tests
+     1/23  11:00am  1:35  Finished debugging; program passes all public tests
+                    ----
+                    7:55  TOTAL time spent
+
+     I discussed my solution with: Peter Salovey, Ben Polak, Tamar Gendler,
+     and Jonathan Holloway (and watched four episodes of The Simpsons).
+
+     <A brief discussion of the major difficulties encountered>
+
+   but MUST contain
+
+   * your estimate of the time required (made prior to writing any code),
+
+   * the total time you actually spent on the assignment,
+
+   * the names of all others (but not members of the teaching staff) with whom
+     you discussed the assignment for more than 10 minutes, and
+
+   * a brief discussion (100 words MINIMUM) of the major conceptual and coding
+     difficulties that you encountered in developing and debugging the program
+     (and there will always be some).
+
+   This log will generally be worth 5-10% of the total grade.
+
+   N.B.  To facilitate analysis, the log file MUST be the only file submitted
+   whose name contains the string "log" and the estimate / total MUST be on the
+   only line in that file that contains the string "ESTIMATE" / "TOTAL".
+
+3. The submit program can be invoked in eight different ways:
+
+     % /c/cs223/bin/submit 4  Makefile Calc.c stack.c stack.h time.log
+
+   submits the named source files as your solution to Homework #4;
+   Note that even though you will submit stack.h, you are not allowed
+   to change the definitions.  You may add comments, such as your
+   name.  You should assume that your stack table implementation may
+   be tested independently of Calc.
+
+     % /c/cs223/bin/check  4
+
+   lists the files that you submitted for Homework #4;
+
+     % /c/cs223/bin/unsubmit  4  error.submit bogus.solution
+
+   deletes the named files that you submitted previously for Homework
+   #4 (which is useful if you rename a file or accidentally submit the
+   wrong one);
+
+     % /c/cs223/bin/makeit  4  Calc
+
+   runs "make" on the files that you submitted previously for Homework #4;
+
+     % /c/cs223/bin/testit  4  Calc  [THIS DOES NOT WORK.  SEE ABOVE.]
+
+   runs the public test script for Calc using the files that you submitted
+   previously for Homework #4;
+
+     % /c/cs223/bin/protect  6  Calc.c time.log
+
+   protects the named files that you submitted previously for Homework #6 (so
+   they cannot be deleted accidentally);
+
+     % /c/cs223/bin/unprotect  7  util.c time.log
+
+   unprotects the named files that you submitted previously for Homework #7 (so
+   they can be deleted); and
+
+     % /c/cs223/bin/retrieve  8  common.c time.log
+
+   and
+
+     % /c/cs223/bin/retrieve  8  -d"2016/01/21 20:00" stack.c
+
+   retrieve copies of the named files that you submitted previously for
+   Homework #8 (in case you accidentally delete your own copies).  The day
+   and hour are optional and request the latest submission prior to that time
+   (see the -d flag under "man co" for how to specify times).
+
+4. When assignments are style graded, EVERY source file found in the
+   submit directory will be reviewed.  Thus prudence suggests using
+   unsubmit to remove a file from the directory when you change its
+   name or it ceases to be part of your solution.  See
+   http://zoo.cs.yale.edu/classes/cs223/doc/Style
+
+   In your spare time, you might think about how to automate the tests
+   in the online style sheet.  That would be a pretty good homework
+   assignment.
+
+5. Prudence (and a 5-point penalty for code that does not make)
+   suggests that you run makeit ("makeit 2 Calc") after you have
+   submitted the final version of your source files.  Better yet, run
+   testit ("testit 2 Calc").
+

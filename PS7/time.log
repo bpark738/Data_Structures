@@ -1,0 +1,39 @@
+ESTIMATE of time to complete assignment: 25 hours
+
+            Time                Time
+     Date  Started  Spent Work completed
+     ----  -------  ----  --------------
+    11/20  9:00pm	0:50  Read assignment, set up program, and implemented two word solution.
+    11/22  1:45pm   2:10  Read up on dynamic programming and implemented DP and printed matrix. 
+    11/23  4:40pm   0:50  Figured out how to print words from matrix. Tested some words against
+    					  the staff solution. 
+    11/25  10:00pm  0:20  Cleaned up code and commented for readability.
+    11/26  10:00pm  0:20  Made minor edits to make program output match the spec.
+                          Not sure what to do for default dictionary, if a dictionary is 
+                          required in the command line argument.
+    12/05  5:00pm   3:00  Fixed testing whether a word can be found using the matrix. Did this
+                          by implementing a recursive function. Also fixed output to 
+                          pass the public tests. My program passes all public tests now.
+                          Also changed command line code so that an online dictionary
+                          can be read.
+    12/06  8:00pm   1:00  Checked for test cases. Fixed for empty word input. 
+    12/07  2:00pm   0:30  Edited program for style.
+    12/08  7:00pm   0:45  Checked for edge cases. Fixed for non-alpha characters stdin. Not sure 
+                          what to do if it happens for online dictionary.
+    12/08  7:55pm   0:45  Checked for more edge cases and fixed issues.
+
+                    ----
+
+                    9:45 TOTAL time spent
+    
+
+                  The challenges for this problem set were thinking about how to implement
+                  the matrix like in the video and processing the matrix.
+                  Unlike before, it wasn't mainly due to memory leaks and 
+                  that sort of thing. Also had a timing issue, since I took a big 
+                  break from when I initially worked on the pset and when I tried to
+                  finish it. This was mostly due to other work
+                  that had a higher priority at the time. Had to relearn the matrix and stuff.
+                  In addition, thinking about test cases were pretty hard as well.
+                  Dynamic programming concept was hard to get my head around of, but the
+                  simpler examples like the Fibonacci sequence helpd.

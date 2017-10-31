@@ -1,0 +1,46 @@
+ESTIMATE of time to complete assignment: 25 hours
+
+            Time                Time
+     Date  Started  Spent Work completed
+     ----  -------  ----  --------------
+    11/15  9:00pm	  1:30  Read assignment and read Van Wyk on heaps. Did most of heap.c coding.
+    					            Not sure what to do for demand() but will ask TA. Need to test code too.
+    11/16  7:00pm   1:00  Worked on heap.c as much as possible. Finished demand function after
+    					            talking to TA. Fixed valgrind errors using heaptest.c. Will work on Fire.c.
+    11/16  8:00pm   1:30  Worked on Fire.c. Set up the program with fgets and tokenizing the input.
+    					            Learned the idea of depth first search and will try to implement it.
+    11/16  9:30pm   2:00  Implemented depth first search. Need to check for memory leaks. Found a way
+                          to see if neighbors are not in hash table.
+    11/17  7:00pm   1:20  Fixed the one memory leak from day before. Implemented conn using depth first 
+                          search. Implemented a function to check whether the graph is directed or
+                          undirected. No memory leaks. Can't run public test for some reason. 
+    11/17  8:20pm   1:40  Finished implementing heap.c with the internal grow and initialize functions.
+    11/18  5:00pm   2:00  Fixed mindelete for heap.c and implemented breadth first search. Tested on one
+                          of the public test cases and it seems to work. Need to work on best first search
+                          next.
+    11/19  5:10pm   0:30  Implemented best first search. It was easy to do with bfs already done.
+                          Need to clean up code and do edge cases. Might work to get the meat on homework 7
+                          done first though.
+    11/24  6:00pm   3:10  Fixed memory leaks for bfs and best first search, took a very long time. 
+                          Started to clean up the directed flag code. 
+    11/24  6:10pm   0:30  Cleaned up directed flag and connected flag code and marking visited nodes as 
+			                    unvisited after each method. Program passes all public tests.
+    11/25  9:30pm   0:30  Edited program for style. Made minor edits to make program shorter.
+                          Need to check for edge cases.
+    11/26 10:45pm   0:30  Changed code to use one function to implement bfs and best to make code more concise.
+                          Need to handle edge cases and will be done.
+    11/28  7:40pm   1:00  Checked for some edge cases and edited program accordingly. Not sure if program
+                          too long. Almost 400 lines of code.
+    11/30  7:00pm   2:00  Checked edged cases and added in comments for style.
+                    ----
+                    
+                    My major difficulties with this assignment were definitely memory leaks. I had a hard
+                    time fixing memory leaks for the bfs and best fit methods, since there were a lot of
+                    things to malloc and keep track of. I also had a hard time figuring out how to do
+                    delete min and the order of freeing something and deleting something. Definitely had
+                    some trouble on imlementing the heap methods as well. For dfs, I felt recursion 
+                    wasn't as hard as before. Last thing is making the code succinct was pretty
+                    hard for this assignment. My code is just under 400 lines which is way more than usual.
+
+                    19:10 TOTAL time spent
+    

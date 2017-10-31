@@ -1,0 +1,52 @@
+ESTIMATE of time to complete assignment: 20 hours
+
+            Time                Time
+     Date  Started  Spent Work completed
+     ----  -------  ----  --------------
+     9/9   11:40pm  0:30  Read assignment and learned about command line arguments.
+     9/10  12:30pm  0:45  Read K&R chapter 5
+     9/10   1:15pm  1:00  Started on writing some functions for the homework. Wrote a basic
+                          function for the -next option and the -first option (online 
+                          processing). Tested on valid cases.
+     9/10   2:20pm  1:00  Wrote a function for the -best option. Tested on valid cases.
+     9/11  10:20pm  0:45  Continued working on program to obtain the sizes from the command
+                          line and the additional parameters like the algorithm and trace.
+                          I also added code to check whether trace is a parameter.
+     9/12   8:17    2:00  Added code to handle cases where 0 is an input or the arguments are
+                          out of order and if the numbers are not valid. Added code to handle
+                          the trace argument at any position in *argv. Also added a function
+                          to check whether the algorithm is valid (for example, handle -bogus).
+     9/13   7:30    1:30  Added code to print out results for next, first, and best. I also 
+                          handled the trace case for the next algorithm.
+     9/14           0:40  Added code to handle the trace case for the first and best algorithm
+     9/15   2:15    0:50  Added code to handle the case where trace is before or between the 
+                          sizes. Also changed code to ch19eck through argv for trace first.
+     9/15  10:30    1:10  Coded a sorting alogrithm, tested it, and added it to my program.
+                          Found issues with imprecision in my program. 
+     9/16    9:30   0:50  Made a copy of the sizes array so if bfd or ffd is called before
+                          other algorithms, then the sorted sizes aren't fed into algorithms
+                          that don't sort first.
+     9/17    1:30   1:00  Added a rounding function that rounds to 5 decimal points to handle 
+                          imprecision. Changed output error messages to stderr.
+     9/17    9:00   0:40  Edited program so that the number of bins and algorithm print last
+                          when there is trace. Also edited order of output to match specs.
+                          Program passes all public tests.
+     9/18   10:00   0:37  Added comments for style
+     9/19    8:37   1:00  Checked for edge cases, changed variables to float to be consistent.
+     9/20    7:56   1:00  Edited for style and checked for more edge cases.
+     9/22    1:00   0:13  Checked for edge cases and fixed when input is too small.
+
+                    ----
+
+
+                    14:30  TOTAL time spent
+
+
+                    Some major difficulties I faced were checking for all the edge cases and editing
+                    the program to handle them. I found that sometimes when I edited the program to
+                    handle a certain edge case, then the program changed the output for a different
+                    edge case. So I had to make sure that what I changed did not have unintended
+                    consequences. Another difficulty was learning how to work with pointers. I
+                    thought it was difficult to implement pointers and work with them in functions
+                    and arrays at first. But I found I had to practice with them after reading about it
+                    before trying to do it for the problem set.
